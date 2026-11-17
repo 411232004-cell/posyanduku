@@ -13,10 +13,10 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: "SIP-Anak — Sistem Informasi Posyandu Anak",
+  title: "POSDIGI — Sistem Informasi Posyandu Digital",
   description:
     "Aplikasi pencatatan Posyandu: KMS digital, imunisasi, pemantauan stunting, dan kesehatan ibu.",
-  appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "SIP-Anak" },
+  appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "POSDIGI" },
 };
 
 export const viewport = {

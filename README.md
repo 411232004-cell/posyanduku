@@ -1,4 +1,4 @@
-# SIP-Anak — Sistem Informasi Posyandu Anak
+# POSDIGI — Sistem Informasi Posyandu Digital
 
 Aplikasi web untuk digitalisasi Posyandu: **KMS digital** (grafik WHO BB/U & TB/U),
 **imunisasi**, **peringatan dini stunting**, dan **pemantauan ibu hamil/nifas**.

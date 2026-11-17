@@ -67,7 +67,7 @@ export async function testPush() {
     body: JSON.stringify({
       subs: [{ endpoint: json.endpoint, keys: json.keys }],
       title: "Tes Notifikasi",
-      body: "Notifikasi SIP-Anak berhasil — jadwal Posyandu & hasil penimbangan akan muncul seperti ini.",
+      body: "Notifikasi POSDIGI berhasil — jadwal Posyandu & hasil penimbangan akan muncul seperti ini.",
       url: "/ortu",
     }),
   });

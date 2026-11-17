@@ -1,4 +1,4 @@
-# Panduan Deploy SIP-Anak — Firebase + Vercel
+# Panduan Deploy POSDIGI — Firebase + Vercel
 
 ## A. Setup Firebase (±10 menit, sekali saja)
 
@@ -8,7 +8,7 @@
    ```
 
 2. **Buat project baru** di https://console.firebase.google.com → *Add project*
-   → nama bebas (mis. `SIP-Anak`), Google Analytics boleh dimatikan.
+   → nama bebas (mis. `POSDIGI`), Google Analytics boleh dimatikan.
 
 3. **Aktifkan Firestore**: Build → Firestore Database → *Create database*
    → mode **Native**, lokasi `asia-southeast2` (Jakarta) atau terdekat.
@@ -22,7 +22,7 @@
 
 6. **Deploy rules** (dari folder proyek):
    ```bash
-   firebase use --add            # pilih project SIP-Anak → alias "default"
+   firebase use --add            # pilih project POSDIGI → alias "default"
    firebase deploy --only firestore:rules
    ```
 
@@ -38,16 +38,15 @@
 
 ## B. Push ke GitHub
 
-1. Buat repo baru di https://github.com/new → nama mis. `SIP-Anak` → **Private**, tanpa README.
-2. Hubungkan & push:
+1. Jika membuat repo baru di https://github.com/new, gunakan nama `POSDIGI` → **Private**, tanpa README.
+2. Pastikan remote mengarah ke repo GitHub yang benar, lalu push:
    ```bash
-   git remote set-url origin https://github.com/411232003-gif/SIP-Anak.git
    git push -u origin main
    ```
 
 ## C. Deploy Vercel (via GitHub)
 
-1. https://vercel.com/new → *Import Git Repository* → pilih `SIP-Anak`.
+1. https://vercel.com/new → *Import Git Repository* → pilih repo POSDIGI.
 2. Framework auto-terdeteksi **Next.js** — tidak perlu ubah apapun.
 3. Buka *Environment Variables*, isi (samakan dengan `.env`):
    ```
@@ -66,7 +65,7 @@
    RECAPTCHA_SECRET_KEY                 (opsional — server only)
    ADMIN_USERNAME / ADMIN_PASSWORD      (opsional — hanya untuk `npm run seed` lokal)
    ```
-4. *Deploy* → tunggu ±1–2 menit → dapat URL `https://sip-anak-xxx.vercel.app`.
+4. *Deploy* → tunggu ±1–2 menit → dapat URL aplikasi Vercel.
 
 ## D. Setelah deploy
 

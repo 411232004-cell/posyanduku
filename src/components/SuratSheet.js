@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { tanggalIndo } from "@/lib/utils";
 
 const JABATAN = {
@@ -16,7 +17,7 @@ export function penandatangan(edaran, profil) {
 }
 
 export default function SuratSheet({ edaran, profil, className = "" }) {
-  const logo = profil.logo || "/icon.png";
+  const logo = profil.logo || "/posdigi-app-logo-20261104.png";
   const ttd = penandatangan(edaran, profil);
   const tgl = edaran.tanggal ? new Date(`${edaran.tanggal}T00:00:00`) : new Date();
 
@@ -24,7 +25,14 @@ export default function SuratSheet({ edaran, profil, className = "" }) {
     <div className={`bg-white text-gray-900 ${className}`}>
       {/* Kop surat */}
       <div className="flex items-center gap-3 border-b-4 border-double border-gray-800 pb-3">
-        <img src={logo} alt="Logo kelurahan" className="h-16 w-16 shrink-0 rounded object-contain" />
+        <Image
+          src={logo}
+          alt="Logo kelurahan"
+          width={64}
+          height={64}
+          unoptimized
+          className="shrink-0 rounded object-contain"
+        />
         <div className="min-w-0 flex-1 text-center">
           <p className="text-[11px] font-semibold uppercase tracking-widest text-gray-600">
             Posyandu
@@ -77,7 +85,8 @@ export default function SuratSheet({ edaran, profil, className = "" }) {
 // Unduh surat sebagai dokumen Word (.doc). Isi file berupa HTML yang kompatibel
 // dengan Microsoft Word / WPS / Google Docs — bisa langsung dibuka & dicetak.
 export function downloadEdaranDoc(edaran, profil) {
-  const logoSrc = profil.logo || `${window.location.origin}/icon.png`;
+  const logoSrc =
+    profil.logo || `${window.location.origin}/posdigi-app-logo-20261104.png`;
   const ttd = penandatangan(edaran, profil);
   const tgl = edaran.tanggal ? new Date(`${edaran.tanggal}T00:00:00`) : new Date();
   const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");

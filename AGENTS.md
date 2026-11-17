@@ -1,4 +1,4 @@
-# SIP-Anak — Sistem Informasi Posyandu Anak
+# POSDIGI — Sistem Informasi Posyandu Digital
 
 Next.js 16 (App Router, JavaScript) + Tailwind CSS 4 + Firebase (Auth + Firestore).
 Fork-domain dari InterPulse (Posbindu) → Posyandu: KMS digital, imunisasi,

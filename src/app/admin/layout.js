@@ -38,7 +38,7 @@ export default function AdminLayout({ children }) {
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-3 py-3 sm:px-6">
           <Link href="/admin/beranda" className="flex min-w-0 items-center gap-2">
             <Image
-              src="/icons/icon-192.png"
+              src="/posdigi-app-logo-20261104.png"
               alt=""
               width={40}
               height={40}
@@ -46,7 +46,7 @@ export default function AdminLayout({ children }) {
               priority
             />
             <div className="min-w-0">
-              <p className="truncate text-sm font-bold text-gray-900 sm:text-base">SIP-Anak</p>
+              <p className="truncate text-sm font-bold text-gray-900 sm:text-base">POSDIGI</p>
               <p className="truncate text-xs text-pink-600">
                 {ROLE_LABEL[user.petugasRole] || "Petugas"} · {posyandu}
               </p>

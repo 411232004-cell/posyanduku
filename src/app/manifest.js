@@ -1,7 +1,7 @@
 export default function manifest() {
   return {
-    name: "SIP-Anak — Sistem Informasi Posyandu Anak",
-    short_name: "SIP-Anak",
+    name: "POSDIGI — Sistem Informasi Posyandu Digital",
+    short_name: "POSDIGI",
     description:
       "Aplikasi pencatatan Posyandu: KMS digital, imunisasi, pemantauan stunting, dan kesehatan ibu.",
     id: "/",

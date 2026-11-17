@@ -25,8 +25,8 @@ export default function LoadingScreen({ label = "Memuat...", overlay = false }) 
         <div className="lp-logo">
           <div className="lp-logo-box">
             <Image
-              src="/icons/icon-192.png"
-              alt="Logo SIP-Anak"
+              src="/posdigi-app-logo-20261104.png"
+              alt="Logo POSDIGI"
               width={64}
               height={64}
               priority
@@ -34,7 +34,7 @@ export default function LoadingScreen({ label = "Memuat...", overlay = false }) 
           </div>
         </div>
         <div className="lp-content">
-          <h2>SIP-Anak</h2>
+          <h2>POSDIGI</h2>
           <span>{profil.namaPosyandu} · {profil.namaKelurahan?.replace(/^kelurahan\s*/i, "")}</span>
         </div>
       </div>

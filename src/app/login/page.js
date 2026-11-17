@@ -137,14 +137,14 @@ export default function LoginPage() {
 
       <div className="lg-card">
         <Image
-          src="/icons/icon-192.png"
+          src="/posdigi-app-logo-20261104.png"
           alt=""
           width={76}
           height={76}
           className="lg-brand-logo"
           priority
         />
-        <h1>SIP-Anak</h1>
+        <h1>POSDIGI</h1>
         <h2>Selamat Datang</h2>
         <p>
           Masuk untuk memantau KMS digital, imunisasi,

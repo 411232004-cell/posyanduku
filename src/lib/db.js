@@ -61,7 +61,7 @@ function notifyHasilAnak(nik, { title, body, url = "/ortu/kms" } = {}) {
 }
 
 export const DEFAULT_PROFIL = {
-  namaPosyandu: "Posyandu Melati",
+  namaPosyandu: "Posyandu",
   namaKelurahan: "Kelurahan Duri Selatan",
   namaPuskesmas: "Puskesmas Tambora",
   alamatPosyandu: "",
@@ -70,6 +70,11 @@ export const DEFAULT_PROFIL = {
   namaKapus: "",
   logo: "",
 };
+
+function normalizeProfil(profil) {
+  if (profil?.namaPosyandu?.trim() !== "Posyandu Melati") return profil;
+  return { ...profil, namaPosyandu: "Posyandu" };
+}
 
 function readLocal() {
   if (typeof window === "undefined") return emptyDb();
@@ -344,7 +349,7 @@ const local = {
     writeLocal(d);
   },
   async getProfil() {
-    return readLocal().profil;
+    return normalizeProfil(readLocal().profil);
   },
   async setProfil(p) {
     const d = readLocal();
@@ -734,7 +739,7 @@ const fs = {
   },
   async getProfil() {
     const s = await getDoc(doc(fdb, "config", "profil"));
-    return s.exists() ? s.data() : {};
+    return normalizeProfil(s.exists() ? s.data() : {});
   },
   async setProfil(p) {
     await setDoc(doc(fdb, "config", "profil"), p);

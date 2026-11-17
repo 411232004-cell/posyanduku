@@ -1,55 +1,96 @@
-import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import nextEnv from "@next/env";
 import { initializeApp, getApps } from "firebase/app";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const env = {};
-for (const line of readFileSync(join(ROOT, ".env"), "utf8").split("\n")) {
-  const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/);
-  if (m) env[m[1]] = m[2];
-}
+const { loadEnvConfig } = nextEnv;
+loadEnvConfig(ROOT);
 
-const app = getApps().length ? getApps()[0] : initializeApp({
-  apiKey: env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  appId: env.NEXT_PUBLIC_FIREBASE_APP_ID,
-});
-const db = getFirestore(app);
-const auth = getAuth(app);
+const requiredEnv = [
+  "NEXT_PUBLIC_FIREBASE_API_KEY",
+  "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN",
+  "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
+  "NEXT_PUBLIC_FIREBASE_APP_ID",
+  "ADMIN_USERNAME",
+  "ADMIN_PASSWORD",
+];
+const missingEnv = requiredEnv.filter((key) => !process.env[key]?.trim());
 
-const ORTU_DOMAIN = env.NEXT_PUBLIC_ORTU_EMAIL_DOMAIN || "sipanak.app";
-const PETUGAS_DOMAIN = env.NEXT_PUBLIC_PETUGAS_EMAIL_DOMAIN || `petugas.${ORTU_DOMAIN}`;
-const ADMIN_USER = env.ADMIN_USERNAME;
-const ADMIN_PASS = env.ADMIN_PASSWORD;
+if (missingEnv.length) {
+  console.error(`Konfigurasi belum lengkap. Isi variabel berikut di file .env Next.js atau environment:\n- ${missingEnv.join("\n- ")}`);
+  process.exitCode = 1;
+} else {
+  const ORTU_DOMAIN = process.env.NEXT_PUBLIC_ORTU_EMAIL_DOMAIN || "sipanak.app";
+  const PETUGAS_DOMAIN =
+    process.env.NEXT_PUBLIC_PETUGAS_EMAIL_DOMAIN || `petugas.${ORTU_DOMAIN}`;
+  const ADMIN_USER = process.env.ADMIN_USERNAME.trim().toLowerCase();
+  const ADMIN_PASS = process.env.ADMIN_PASSWORD;
+  const email = ADMIN_USER.includes("@")
+    ? ADMIN_USER
+    : `${ADMIN_USER}@${PETUGAS_DOMAIN}`;
 
-const email = ADMIN_USER.includes("@") ? ADMIN_USER : `${ADMIN_USER}@${PETUGAS_DOMAIN}`;
-console.log(`[1] Project: ${env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}`);
-console.log(`[2] Login sebagai: ${email}`);
+  async function checkAdmin() {
+    const app = getApps().length
+      ? getApps()[0]
+      : initializeApp({
+          apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+          authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+          projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+          appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+        });
+    const db = getFirestore(app);
+    const auth = getAuth(app);
 
-try {
-  const cred = await signInWithEmailAndPassword(auth, email, ADMIN_PASS);
-  console.log(`[3] Auth OK — uid: ${cred.user.uid}, email: ${cred.user.email}`);
-  try {
-    const snap = await getDoc(doc(db, "users", cred.user.uid));
-    if (!snap.exists()) {
-      console.log(`[4] DOKUMEN users/${cred.user.uid} TIDAK ADA → buat di Console dengan Document ID = UID ini, field role="admin"`);
-    } else {
-      console.log(`[4] Dokumen users:`, JSON.stringify(snap.data()));
-      const role = snap.data().role;
-      console.log(["admin", "nakes", "kader"].includes(role)
-        ? `[5] Role "${role}" valid — seharusnya bisa login di aplikasi`
-        : `[5] Role "${role}" TIDAK valid — harus admin/nakes/kader`);
+    console.log(`[1] Project: ${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}`);
+    console.log(`[2] Login sebagai: ${email}`);
+
+    let cred;
+    try {
+      cred = await signInWithEmailAndPassword(auth, email, ADMIN_PASS);
+      console.log(`[3] Auth OK — uid: ${cred.user.uid}, email: ${cred.user.email}`);
+    } catch (error) {
+      console.error(`[3] Auth GAGAL: ${error.code || error.message}`);
+      if (["auth/user-not-found", "auth/invalid-credential"].includes(error.code)) {
+        console.error(`    → Akun "${email}" tidak ditemukan atau password salah.`);
+      }
+      return false;
     }
-  } catch (e) {
-    console.log(`[4] Gagal baca dokumen users: ${e.code || e.message} → kemungkinan firestore.rules belum di-deploy`);
+
+    let snap;
+    try {
+      snap = await getDoc(doc(db, "users", cred.user.uid));
+    } catch (error) {
+      console.error(
+        `[4] Gagal membaca dokumen users: ${error.code || error.message} → periksa firestore.rules dan koneksi Firebase.`
+      );
+      return false;
+    }
+
+    if (!snap.exists()) {
+      console.error(
+        `[4] Dokumen users/${cred.user.uid} tidak ditemukan. Buat dokumen dengan ID UID tersebut dan field role="admin".`
+      );
+      return false;
+    }
+
+    const role = snap.data().role;
+    if (!["admin", "nakes", "kader"].includes(role)) {
+      console.error(`[5] Role "${role}" tidak valid — harus admin, nakes, atau kader.`);
+      return false;
+    }
+
+    console.log(`[4] Dokumen users ditemukan.`);
+    console.log(`[5] Role "${role}" valid — seharusnya bisa login di aplikasi.`);
+    return true;
   }
-} catch (e) {
-  console.log(`[3] Auth GAGAL: ${e.code || e.message}`);
-  if (e.code === "auth/user-not-found" || e.code === "auth/invalid-credential")
-    console.log(`    → Akun "${email}" tidak ditemukan/password salah. Pastikan email di Authentication persis sama.`);
+
+  try {
+    process.exitCode = (await checkAdmin()) ? 0 : 1;
+  } catch (error) {
+    console.error(`Pemeriksaan admin gagal: ${error.code || error.message}`);
+    process.exitCode = 1;
+  }
 }
-process.exit(0);

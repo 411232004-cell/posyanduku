@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth";
@@ -190,7 +191,14 @@ export default function ProfilAdminPage() {
         </div>
         <div className="mt-4 flex flex-wrap items-center gap-3">
           {profil.logo && (
-            <img src={profil.logo} alt="Logo posyandu" className="h-12 w-12 rounded-lg border border-gray-200 object-contain" />
+            <Image
+              src={profil.logo}
+              alt="Logo posyandu"
+              width={48}
+              height={48}
+              unoptimized
+              className="rounded-lg border border-gray-200 object-contain"
+            />
           )}
           <label className="cursor-pointer rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50">
             Ubah Logo

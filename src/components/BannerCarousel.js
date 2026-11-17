@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 
 const INTERVAL_MS = 30_000;
 
-// The supplied desktop/mobile artwork is shared while the caption rotates.
 const SLIDES = [
   { key: "sambutan" },
   { key: "info" },
@@ -59,7 +58,7 @@ export default function BannerCarousel({ children, className = "", overlays = nu
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
-      <div className="banner-art">
+      <div className={`banner-art ${idx === 1 ? "banner-art--slide-2" : ""}`}>
         <div className="banner-art__shade" />
 
         {SLIDES.length > 1 && (

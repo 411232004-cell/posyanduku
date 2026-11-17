@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { QRCodeSVG } from "qrcode.react";
 import { umurLabel } from "@/lib/utils";
 
@@ -9,16 +10,19 @@ export function qrValue(anak) {
 }
 
 export default function KartuAnak({ anak, profil }) {
-  const logo = profil.logo || "/icons/icon-192.png";
+  const logo = profil.logo || "/posdigi-app-logo-20261104.png";
 
   return (
     <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-pink-500 via-pink-600 to-fuchsia-600 text-white shadow-lg">
       {/* Kepala kartu */}
       <div className="flex items-center gap-2.5 border-b border-white/20 px-4 py-3">
-        <img
+        <Image
           src={logo}
           alt="Logo posyandu"
-          className="h-9 w-9 shrink-0 rounded-lg bg-white object-contain p-0.5"
+          width={36}
+          height={36}
+          unoptimized
+          className="shrink-0 rounded-lg bg-white object-contain p-0.5"
         />
         <div className="min-w-0">
           <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-pink-100">

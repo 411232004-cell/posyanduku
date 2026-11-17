@@ -236,7 +236,7 @@ async function main() {
   console.log(`Ibu dibuat: ${N_IBU}`);
 
   await setDoc(doc(db, "config", "profil"), {
-    namaPosyandu: "Posyandu Melati",
+    namaPosyandu: "Posyandu",
     namaKelurahan: "Kelurahan Duri Selatan",
     namaPuskesmas: "Puskesmas Tambora",
     alamatPosyandu: "Jl. Duri Selatan Raya No. 12",

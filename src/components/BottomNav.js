@@ -192,7 +192,7 @@ export default function BottomNav({ variant = "admin" }) {
         </Link>
 
         <span className="mnav-label">
-          {isAdmin ? "MONEV POSYANDU" : "SIP-ANAK"}
+          {isAdmin ? "MONEV POSYANDU" : "POSDIGI"}
         </span>
 
         <Link

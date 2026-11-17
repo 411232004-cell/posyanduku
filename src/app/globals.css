@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ============================================================
-   SIP-Anak — tema "Bubblegum 3D"
+   POSDIGI — tema "Bubblegum 3D"
    Gradien pink cerah, tombol permen 3D, kartu putih bersih.
    Semua teks memakai kontras tinggi (tidak ada teks pudar/transparan
    di atas warna ramai) — aman dibaca kader di lapangan.
@@ -1378,7 +1378,7 @@ body::before {
 .dark .b3-sub { color: #d98ab4; }
 
 /* ============================================================
-   BANNER BERANDA — artwork responsif dari aset SIP-Anak
+   BANNER BERANDA — artwork responsif dari aset POSDIGI
    ============================================================ */
 .banner-carousel {
   display: grid;
@@ -1395,13 +1395,17 @@ body::before {
   border: 2px solid rgba(255, 255, 255, 0.9);
   border-radius: 24px;
   background-color: #f9b4d0;
-  background-image: url("/banner-desktop.webp");
+  background-image: url("/banner-desktop-posdigi.webp");
   background-position: center;
   background-size: cover;
   box-shadow:
     0 14px 30px rgba(164, 28, 93, 0.18),
     0 4px 0 rgba(236, 158, 198, 0.55),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.banner-art--slide-2 {
+  background-image: url("/banner-slide2-desktop.webp");
 }
 
 .banner-art__shade {
@@ -1498,8 +1502,12 @@ body::before {
 @media (max-width: 639px) {
   .banner-art {
     aspect-ratio: 1456 / 720;
-    background-image: url("/banner-mobile.webp");
+    background-image: url("/banner-mobile-posdigi.webp");
     border-radius: 20px;
+  }
+
+  .banner-art--slide-2 {
+    background-image: url("/banner-slide2-mobile.webp");
   }
 
   .banner-arrow {

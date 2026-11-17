@@ -1,6 +1,6 @@
 rules_version = '2';
 
-  // SIP-Anak — login memakai Firebase Authentication:
+  // POSDIGI — login memakai Firebase Authentication:
   //   petugas (Admin/Nakes/Kader) : akun email/password biasa; role diverifikasi
   //                   lewat dokumen `users/{uid}` dengan field role ∈ admin|nakes|kader
   //                   (doc ID = UID Auth). Hanya "admin" yang mengelola akun petugas,
